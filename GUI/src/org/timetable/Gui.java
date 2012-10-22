@@ -1,37 +1,85 @@
 package org.timetable;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JFrame;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics2D;
-
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.Color;
-import javax.swing.SwingConstants;
-import java.awt.Toolkit;
-import javax.swing.JButton;
 
 public class Gui extends JFrame implements ActionListener {
 	
-	public Gui()  {
-		Makeframe();
-	}
+	public String[] temp = new String[] {"Klanten", "klant01", "klant02", "klant03", "klant04", "klant05", "klant06", "klant07", "klant08", "klant09", "klant10", "klant11", "klant12"};
 	JLabel buttonLabel;
 	JLabel usernameLabel;
 	JLabel serverLabel;
 	JLabel statusLabel;
 	JComboBox comboBox;
+	
+	public Gui()  { //basic class
+		Makeframe();
+		//Add code here
+	}
+	
+	private void buttonClick(){ //Button interaction
+		buttonColor();
+		//Add code here
+		
+    	buttonLabel.repaint();
+	}
+	
+	private void refreshAction(){ //Refresh costormer
+		//Add code here
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) { //add new events here
+		String command = e.getActionCommand();
+        if(command.equals("About")) {
+        	About about = new About();
+        	about.toFront();
+    		about.setVisible(true);
+        }
+        else if(command.equals("Connect to server")) {
+        	ConnectGui connect = new ConnectGui();
+        	connect.toFront();
+    		connect.setVisible(true);
+        }
+        else if(command.equals("Login")) {
+        	LoginGui login = new LoginGui();
+        	login.toFront();
+    		login.setVisible(true);
+        }
+        else if(command.equals("Add customer")) {
+        	CostomerGui costemer = new CostomerGui(this);
+        	costemer.toFront();
+    		costemer.setVisible(true);
+        }
+        else if(command.equals("Manual Input")) {
+        	ManualGui manual = new ManualGui();
+        	manual.toFront();
+    		manual.setVisible(true);
+        }
+        else if(command.equals("History")) {
+        	HistoryGui history = new HistoryGui();
+        	history.toFront();
+    		history.setVisible(true);
+        }
+        else if(command.equals("")){
+        	refreshAction();
+        }
+	}
+	
+	  /////////////////
+	 //Gui from here//
+	/////////////////
+	
+	public void Makeframe(){ //frame stuff
+		makeBasic();
+		makeMenuBar();
+		makeField();
+		makeGraphic();
+	}
 	
 	Boolean bool = false;
 	Toolkit tk = Toolkit.getDefaultToolkit();
@@ -40,15 +88,7 @@ public class Gui extends JFrame implements ActionListener {
 	final int HEIGHT = screenSize.height;
 	
 	
-	public void Makeframe(){
-		makeBasic();
-		makeMenuBar();
-		makeField();
-		makeGraphic();
-	}
-	
-	
-	public void makeBasic(){
+	public void makeBasic(){ //Basic frame stuff
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Gui.class.getResource("/Images/sfico.png")));//
 		setTitle("TimeTable"); //
 		setResizable(false); //
@@ -57,9 +97,9 @@ public class Gui extends JFrame implements ActionListener {
 		getContentPane().setLayout(null); //
 	}
 	
-	public void makeMenuBar(){
+	public void makeMenuBar(){ //Menubar 
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 294, 21);
+		menuBar.setBounds(0, 0, 300, 20);
 		getContentPane().add(menuBar); //
 		
 		JMenu editMenu = new JMenu("Edit ");
@@ -87,11 +127,11 @@ public class Gui extends JFrame implements ActionListener {
 		infoMenu.add(AboutItem);
 	}
 	
-	public void makeField(){
+	public void makeField(){ //Gui interface
 		buttonLabel = new JLabel("");
 		buttonLabel.setIcon(new ImageIcon(Gui.class.getResource("/Images/off.png")));
 		buttonLabel.setBounds(42, 180, 200, 200);
-		buttonLabel.addMouseListener(new MouseAdapter() { public void mouseReleased(MouseEvent e)  { buttoncolor(); }});
+		buttonLabel.addMouseListener(new MouseAdapter() { public void mouseReleased(MouseEvent e)  { buttonClick(); }});
 		getContentPane().add(buttonLabel); //
 		
 		usernameLabel = new JLabel("Username");
@@ -119,7 +159,7 @@ public class Gui extends JFrame implements ActionListener {
 		getContentPane().add(refreshButton);
 		
 		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Klanten", "klant01", "klant02", "klant03", "klant04", "klant05", "klant06", "klant07", "klant08", "klant09", "klant10", "klant11", "klant12"}));
+		comboBox.setModel(new DefaultComboBoxModel(temp));
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		comboBox.setBounds(45, 108, 172, 20);
 		getContentPane().add(comboBox);//
@@ -130,7 +170,7 @@ public class Gui extends JFrame implements ActionListener {
 		getContentPane().add(selectlabel);//
 	}
 	
-	public void makeGraphic(){
+	public void makeGraphic(){ //Background + logo
 		JLabel logoLabel = new JLabel("");
 		logoLabel.setIcon(new ImageIcon(Gui.class.getResource("/Images/sflogo.png")));
 		logoLabel.setBounds(0, 20, 294, 74);
@@ -139,13 +179,11 @@ public class Gui extends JFrame implements ActionListener {
 		JLabel backLabel = new JLabel("");
 		backLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		backLabel.setIcon(new ImageIcon(Gui.class.getResource("/Images/sfbg3.png")));
-		backLabel.setBounds(0, 20, 294, 382);
+		backLabel.setBounds(0, 15, 300, 415);
 		getContentPane().add(backLabel);//
 	}
 	
-	
-	
-	public void buttoncolor(){
+	private void buttonColor(){ //basic start stop button
 		if(!bool){
     		buttonLabel.setIcon(new ImageIcon(Gui.class.getResource("/Images/on.png")));
     		bool = true;
@@ -156,42 +194,6 @@ public class Gui extends JFrame implements ActionListener {
     		bool = false;
     		statusLabel.setText("Stop");
     	}
-    	buttonLabel.repaint();
-    	//buttonLabel.revalidate();
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		String command = e.getActionCommand();
-        if(command.equals("About")) {
-        	About about = new About();
-        	about.toFront();
-    		about.setVisible(true);
-        }
-        else if(command.equals("Connect to server")) {
-        	ConnectGui connect = new ConnectGui();
-        	connect.toFront();
-    		connect.setVisible(true);
-        }
-        else if(command.equals("Login")) {
-        	LoginGui login = new LoginGui();
-        	login.toFront();
-    		login.setVisible(true);
-        }
-        else if(command.equals("Add customer")) {
-        	CostomerGui costemer = new CostomerGui();
-        	costemer.toFront();
-    		costemer.setVisible(true);
-        }
-        else if(command.equals("Manual Input")) {
-        	ManualGui manual = new ManualGui();
-        	manual.toFront();
-    		manual.setVisible(true);
-        }
-        else if(command.equals("History")) {
-        	HistoryGui history = new HistoryGui();
-        	history.toFront();
-    		history.setVisible(true);
-        }
-	}
+	
 }

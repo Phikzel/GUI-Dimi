@@ -23,7 +23,6 @@ public class About extends JFrame{
 	Dimension screenSize = tk.getScreenSize();
 	final int WIDTH = screenSize.width;
 	final int HEIGHT = screenSize.height;
-	private JTextField addCostormerTB;
 	
 	public void makeframe(){ //frame
 		setIconImage(Toolkit.getDefaultToolkit().getImage(About.class.getResource("/Images/sfico.png")));
